@@ -18,7 +18,8 @@
                 <?if(!\Core\Component\User\Authentication::isLogin()){?>
                     <li><a href="/login" class="nav-link px-2 text-white">Авторизация</a></li>
                 <?}else{ ?>
-                    <li><a href="/new-film" class="nav-link px-2 text-white">Добавить фильм</a></li>
+                    <li><a href="/new-film" class="nav-link px-2 text-white">Добавить фильм</a>
+                    <li><a href="/import" class="nav-link px-2 text-white">Импортировать фильмы</a></li>
                     <li><a href="/logout" class="nav-link px-2 text-white">Выйти</a></li>
                 <?}?>
             </ul>

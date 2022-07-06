@@ -75,4 +75,72 @@ class FilmController{
             Helper::redirect('/login');
         }
     }
+
+    public function importFilmPage(){
+        if(Authentication::isLogin()){
+            View::instance()->render('base','import-film');
+        }else{
+            Helper::redirect('/login');
+        }
+    }
+
+    public function parse(){
+        $sting = "";
+
+
+
+        $FilmFormatModel = new FilmFormat();
+        $filmFormat= $FilmFormatModel->getAll();
+        $filmFormatList=[];
+        foreach ($filmFormat as $val){
+            $filmFormatList[$val['name']]=$val['id'];
+        }
+        $sting=str_replace('Title:', '*Title*', $sting);
+        $sting=str_replace('Release Year:', '*Release Year*', $sting);
+        $sting=str_replace('Format:', '*Format*', $sting);
+        $sting=str_replace('Stars:', '*Stars*', $sting);
+        $sting=ltrim(rtrim($sting));
+        $data = explode("*", $sting);
+        $result= [];
+        $id=0;
+        $title=0;
+        $year=0;
+        $format=0;
+        $stars=0;
+        foreach ($data as $key=>$val){
+            if($title==1){
+                $result[$id]['name']=ltrim(rtrim($val));
+                $title=0;
+            }
+            if($year==1) {
+                $result[$id]['year']=ltrim(rtrim($val));
+                $year=0;
+            }
+            if($format==1){
+                $result[$id]['format']=$filmFormatList[ltrim(rtrim($val))];
+                $format=0;
+            }
+            if($stars==1){
+                $result[$id]['actors']=ltrim(rtrim($val));
+                $stars=0;
+            }
+            if(ltrim(rtrim($val))=='Format')$format=1;
+            if(ltrim(rtrim($val))=='Release Year')$year=1;
+            if(ltrim(rtrim($val))=='Stars')$stars=1;
+            if(ltrim(rtrim($val))=='Title'){
+                $title=1;
+                $id++;
+            }
+        }
+
+        $user_id=Authentication::isLogin()['id'];
+        foreach ($result as $insert){
+            $FilmModel = new Film();
+            $FilmModel->add($user_id,$insert['format'],$insert['name'],$insert['year'],$insert['actors']);
+        }
+        Helper::dump($result);
+
+    }
+
+
 }

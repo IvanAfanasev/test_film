@@ -54,6 +54,15 @@ class RouterConfig{
         });
 
 
+        Route::instance()->get('/import', function (){
+            $controller = new FilmController();
+            $controller->importFilmPage();
+        });
+        Route::instance()->get('/parse', function (){
+            $controller = new FilmController();
+            $controller->parse();
+        });
+
 
 
 
