@@ -20,7 +20,7 @@
                 <?}else{ ?>
                     <li><a href="/new-film" class="nav-link px-2 text-white">Добавить фильм</a>
                     <li><a href="/import" class="nav-link px-2 text-white">Импортировать фильмы</a></li>
-                    <li><a href="/logout" class="nav-link px-2 text-white">Выйти</a></li>
+                    <li><a href="/logout" class="nav-link px-2 text-white ">Выйти</a></li>
                 <?}?>
             </ul>
         </div>
@@ -28,6 +28,15 @@
 </header>
 
 <div class="container mt-5">
+    <? if(is_array($messages) and isset($messages['error'])){ ?>
+    <div class="alert alert-danger">
+        <ul>
+            <? foreach ($messages['error'] as $error){
+                    echo "<li>$error</li>";
+                } ?>
+        </ul>
+    </div>
+    <? } ?>
     <?php
     include('src/App/View/Page/' . $page . '.php');
     ?>

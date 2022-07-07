@@ -53,9 +53,11 @@ class UserController{
                 Authentication::login($result[0]['id']);
                 Helper::redirect('/');
             }else{
+                View::instance()->message('error','Введен неверный логин или пароль');
                 Helper::redirect('/login');
             }
         }else{
+            View::instance()->message('error','Введен неверный логин или пароль');
             Helper::redirect('/login');
         }
     }
