@@ -23,11 +23,14 @@ class FilmController{
     public function addFilm(){
         if(Authentication::isLogin()){
             $request = Request::instance()->getPost();
-            if(isset($request['Name']) && isset($request['Year']) && isset($request['Format']) && isset($request['Actors'])) {
+            if(isset($request['Name']) && isset($request['Year']) && isset($request['Format']) && isset($request['Actors'])
+                && $request['Name'] && $request['Actors']
+            ) {
                 $FilmModel = new Film();
                 $FilmModel->add(Authentication::isLogin()['id'],$request['Format'],$request['Name'],$request['Year'],$request['Actors']);
                 Helper::redirect('/');
             }else{
+                View::instance()->message('error','заполните обязательные поля');
                 Helper::redirect('/new-film');
             }
 
@@ -132,20 +135,19 @@ class FilmController{
                     }
                 }
                 $user_id=Authentication::isLogin()['id'];
+                $coll=0;
                 foreach ($result as $insert){
                     $FilmModel = new Film();
                     $FilmModel->add($user_id,$insert['format'],$insert['name'],$insert['year'],$insert['actors']);
+                    $coll++;
                 }
                 Helper::redirect('/');
-
-
             }else{
+                View::instance()->message('error','некоректный формат файла');
                 Helper::redirect('/import');
             }
         }else{
             Helper::redirect('/login');
         }
     }
-
-
 }

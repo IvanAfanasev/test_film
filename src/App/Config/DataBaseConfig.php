@@ -6,9 +6,9 @@ class DataBaseConfig{
     public static function getConfig(){
         return [
             'host'=>'localhost',
-            'dbname'=>'films',
+            'dbname'=>'films1',
             'username'=>'root',
-            'password'=>''
+            'password'=>'root'
         ];
     }
 }

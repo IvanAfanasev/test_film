@@ -46,7 +46,7 @@ class Film{
         if($findName){
             $WHERE.=  substr(Helper::WHERE([
                 ['operator'=>'AND'],
-                ['key'=>'film.name','val'=>$findName."%",'compare'=>'like'],
+                ['key'=>'film.name','val'=>"%".addcslashes($findName,"'")."%",'compare'=>'like'],
             ]),7);
         }
         if($findActors){

@@ -1,6 +1,6 @@
-<h1><?=$data['film']['name']?></h1>
+<h1><?=\Core\Component\Http\Request::cleanTeg($data['film']['name'])?></h1>
 
-Актеры: <?= $data['film']['actors'] ?><br>
+Актеры: <?= \Core\Component\Http\Request::cleanTeg($data['film']['actors']) ?><br>
 Год выпуска: <?= $data['film']['year'] ?><br>
 Формат: <?= $data['film']['film_format'] ?>
 

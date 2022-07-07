@@ -5,7 +5,7 @@
 
     <div class="form-group">
         <label for="Name">Название фильма</label>
-        <input type="text" name="Name" placeholder="Название фильма" id="Name" class="form-control" required>
+        <input type="text" name="Name" placeholder="Название фильма" id="Name" class="form-control" required maxlength="120">
     </div>
 
     <div class="form-group">
@@ -28,7 +28,7 @@
 
     <div class="form-group">
         <label for="Actors">Список актеров</label>
-        <textarea name="Actors" id="Actors" class="form-control" placeholder="Audrey Hepburn, Cary Grant, Walter Matthau" required></textarea>
+        <textarea name="Actors" id="Actors" class="form-control" placeholder="Audrey Hepburn, Cary Grant, Walter Matthau" required maxlength="240"></textarea>
     </div>
 
     <button type="submit" class="btn btn-success mt-2">добавить</button>

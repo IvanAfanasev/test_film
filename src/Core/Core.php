@@ -12,23 +12,17 @@ class Core{
 
 
     public function run(){
-        session_start();
+        $this->session();
         RouterConfig::initial();
         Request::instance()->initial();
         Route::instance()->route($_SERVER['REQUEST_URI']);
 
+    }
 
-       /**
-        * обработка запроса
-        * получение метода
-        * вызов метода
-        */
+    private function session(){
+        session_start();
+        if(!isset($_SESSION['user'])) $_SESSION['user']=[];
+        if(!isset($_SESSION['message'])) $_SESSION['message']=[];
     }
 
 }
-/**
- * иденитификация пользователя
- * подключение к базе данных
- * шаблонитизатор твиг
- * респонс 
- */

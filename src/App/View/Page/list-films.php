@@ -4,8 +4,8 @@
 <div class="row">
     <div class="col-10">
         <? foreach ($data['films'] as $val) { ?>
-            <h3><a href="/film/<?=$val['id']?>"><?= $val['name'] ?></a></h3>
-            Актеры: <?= $val['actors'] ?><br>
+            <h3><a href="/film/<?=$val['id']?>"><?= \Core\Component\Http\Request::cleanTeg($val['name']) ?></a></h3>
+            Актеры: <?= \Core\Component\Http\Request::cleanTeg($val['actors']) ?><br>
             Год выпуска: <?= $val['year'] ?><br>
             Формат: <?= $val['film_format'] ?>
             <hr>
