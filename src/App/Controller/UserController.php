@@ -43,7 +43,11 @@ class UserController{
 
     }
 
-
+    /**
+     * @param $email
+     * @param $password
+     * @return void
+     */
     public function authentication($email,$password){
         $user=new User();
         $result =  $user->getForEmailPassword($email,$password);

@@ -8,11 +8,23 @@ class Film{
 
     private $table='film';
 
+    /**
+     * @param $user_id
+     * @param $format_id
+     * @param $name
+     * @param $year
+     * @param $actors
+     * @return bool
+     */
     public function add($user_id, $format_id,$name,$year,$actors){
         DataBase::instance()->insert($this->table, ['user_id'=>$user_id,'format_id'=>$format_id,'name'=>$name,'year'=>$year,'actors'=>$actors]);
         return true;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function remove($id){
         $WHERE =  Helper::WHERE([
             ['key'=>'id','val'=>$id,'compare'=>'='],
@@ -22,6 +34,11 @@ class Film{
         return true;
     }
 
+    /**
+     * @param $findName
+     * @param $findActors
+     * @return array|false
+     */
     public function getList($findName=false,$findActors=false){
         $WHERE =  Helper::WHERE([
             ['col1'=>'film.format_id','col2'=>'film_format.id','compare'=>'=']

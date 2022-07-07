@@ -63,11 +63,5 @@ class RouterConfig{
             $controller->parse();
         });
 
-
-
-
-
     }
-
-
 }

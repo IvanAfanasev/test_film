@@ -3,9 +3,9 @@ namespace Core\Component\DataBase;
 
 
 use App\Config\DataBaseConfig;
-use Core\Component\Helper;
 use Core\Traits\Singleton;
 use PDO;
+
 
 class DataBase{
     use Singleton;
@@ -22,21 +22,11 @@ class DataBase{
         }
     }
 
-    public function sql(){
-        $this->connection();
-
-        $stmt = $this->connect->prepare("INSERT INTO users (email,password,name) VALUES (:email, :password, :name)");
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':name', $name);
-
-        $name = 'one';
-        $password = 1;
-        $email='lala@it.ua';
-        $stmt->execute();
-
-    }
-
+    /**
+     * @param $table
+     * @param $data
+     * @return void
+     */
     public function insert($table, $data){
         $this->connection();
         $columns='';
@@ -56,9 +46,12 @@ class DataBase{
         $stmt->execute();
     }
 
+    /**
+     * @param $statement
+     * @return false|\PDOStatement
+     */
     public function query($statement){
         $this->connection();
-
         return $this->connect->query($statement);
     }
 
