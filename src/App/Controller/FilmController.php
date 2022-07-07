@@ -85,61 +85,66 @@ class FilmController{
     }
 
     public function parse(){
-        $sting = "";
-
-
-
-        $FilmFormatModel = new FilmFormat();
-        $filmFormat= $FilmFormatModel->getAll();
-        $filmFormatList=[];
-        foreach ($filmFormat as $val){
-            $filmFormatList[$val['name']]=$val['id'];
-        }
-        $sting=str_replace('Title:', '*Title*', $sting);
-        $sting=str_replace('Release Year:', '*Release Year*', $sting);
-        $sting=str_replace('Format:', '*Format*', $sting);
-        $sting=str_replace('Stars:', '*Stars*', $sting);
-        $sting=ltrim(rtrim($sting));
-        $data = explode("*", $sting);
-        $result= [];
-        $id=0;
-        $title=0;
-        $year=0;
-        $format=0;
-        $stars=0;
-        foreach ($data as $key=>$val){
-            if($title==1){
-                $result[$id]['name']=ltrim(rtrim($val));
+        if(Authentication::isLogin()){
+            if($_FILES['file']['type']=='text/plain'){
+                $string = file_get_contents($_FILES['file']['tmp_name']);
+                $FilmFormatModel = new FilmFormat();
+                $filmFormat= $FilmFormatModel->getAll();
+                $filmFormatList=[];
+                foreach ($filmFormat as $val){
+                    $filmFormatList[$val['name']]=$val['id'];
+                }
+                $string=str_replace('Title:', '*Title*', $string);
+                $string=str_replace('Release Year:', '*Release Year*', $string);
+                $string=str_replace('Format:', '*Format*', $string);
+                $string=str_replace('Stars:', '*Stars*', $string);
+                $string=ltrim(rtrim($string));
+                $data = explode("*", $string);
+                $result= [];
+                $id=0;
                 $title=0;
-            }
-            if($year==1) {
-                $result[$id]['year']=ltrim(rtrim($val));
                 $year=0;
-            }
-            if($format==1){
-                $result[$id]['format']=$filmFormatList[ltrim(rtrim($val))];
                 $format=0;
-            }
-            if($stars==1){
-                $result[$id]['actors']=ltrim(rtrim($val));
                 $stars=0;
-            }
-            if(ltrim(rtrim($val))=='Format')$format=1;
-            if(ltrim(rtrim($val))=='Release Year')$year=1;
-            if(ltrim(rtrim($val))=='Stars')$stars=1;
-            if(ltrim(rtrim($val))=='Title'){
-                $title=1;
-                $id++;
-            }
-        }
+                foreach ($data as $key=>$val){
+                    if($title==1){
+                        $result[$id]['name']=ltrim(rtrim($val));
+                        $title=0;
+                    }
+                    if($year==1) {
+                        $result[$id]['year']=ltrim(rtrim($val));
+                        $year=0;
+                    }
+                    if($format==1){
+                        $result[$id]['format']=$filmFormatList[ltrim(rtrim($val))];
+                        $format=0;
+                    }
+                    if($stars==1){
+                        $result[$id]['actors']=ltrim(rtrim($val));
+                        $stars=0;
+                    }
+                    if(ltrim(rtrim($val))=='Format')$format=1;
+                    if(ltrim(rtrim($val))=='Release Year')$year=1;
+                    if(ltrim(rtrim($val))=='Stars')$stars=1;
+                    if(ltrim(rtrim($val))=='Title'){
+                        $title=1;
+                        $id++;
+                    }
+                }
+                $user_id=Authentication::isLogin()['id'];
+                foreach ($result as $insert){
+                    $FilmModel = new Film();
+                    $FilmModel->add($user_id,$insert['format'],$insert['name'],$insert['year'],$insert['actors']);
+                }
+                Helper::redirect('/');
 
-        $user_id=Authentication::isLogin()['id'];
-        foreach ($result as $insert){
-            $FilmModel = new Film();
-            $FilmModel->add($user_id,$insert['format'],$insert['name'],$insert['year'],$insert['actors']);
-        }
-        Helper::dump($result);
 
+            }else{
+                Helper::redirect('/import');
+            }
+        }else{
+            Helper::redirect('/login');
+        }
     }
 
 

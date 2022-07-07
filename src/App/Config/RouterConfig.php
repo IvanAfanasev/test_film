@@ -58,7 +58,7 @@ class RouterConfig{
             $controller = new FilmController();
             $controller->importFilmPage();
         });
-        Route::instance()->get('/parse', function (){
+        Route::instance()->get('/load_file_film', function (){
             $controller = new FilmController();
             $controller->parse();
         });

@@ -14,7 +14,7 @@
                 <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0" style="float: right">
-                <li><a href="/" class="nav-link px-2 text-white">Главная</a></li>
+                <li><a href="/" class="nav-link px-2 text-white">Фильмы</a></li>
                 <?if(!\Core\Component\User\Authentication::isLogin()){?>
                     <li><a href="/login" class="nav-link px-2 text-white">Авторизация</a></li>
                 <?}else{ ?>
