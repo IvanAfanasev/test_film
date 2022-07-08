@@ -28,6 +28,7 @@ class FilmController{
             ) {
                 $FilmModel = new Film();
                 $FilmModel->add(Authentication::isLogin()['id'],$request['Format'],$request['Name'],$request['Year'],$request['Actors']);
+                View::instance()->message('success','Фильм - "'.Request::cleanTeg($request['Name']).'" добавлен');
                 Helper::redirect('/');
             }else{
                 View::instance()->message('error','заполните обязательные поля');
@@ -72,7 +73,9 @@ class FilmController{
     public function removeFilm($id){
         if(Authentication::isLogin()){
             $FilmModel = new Film();
+            $film = $FilmModel->getForID($id);
             $FilmModel->remove($id);
+            View::instance()->message('success','Фильм - "'.Request::cleanTeg($film['name']).'" удален');
             Helper::redirect('/');
         }else{
             Helper::redirect('/login');
@@ -141,6 +144,7 @@ class FilmController{
                     $FilmModel->add($user_id,$insert['format'],$insert['name'],$insert['year'],$insert['actors']);
                     $coll++;
                 }
+                View::instance()->message('success',"Добавлено $coll фильмов");
                 Helper::redirect('/');
             }else{
                 View::instance()->message('error','некоректный формат файла');
